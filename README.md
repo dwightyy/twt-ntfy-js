@@ -1,1 +1,0 @@
-# twt-ntfy-js
