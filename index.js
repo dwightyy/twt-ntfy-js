@@ -21,7 +21,7 @@ async function runScript() {
   await driver.get(login_url);
 
   await driver.sleep(2000);
-
+  console.log(driver.getPageSource())
   const usernameField = await driver.wait(until.elementLocated(By.xpath('//input[@name="text"]')), 30000);
   await usernameField.sendKeys(username, Key.RETURN);
 
