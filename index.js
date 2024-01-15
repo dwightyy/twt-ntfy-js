@@ -12,10 +12,10 @@ async function runScript() {
   const chromeOptions = new chrome.Options();
   // chromeOptions.addArguments("--headless");
   // chromeOptions.addArguments("--disable-gpu");
-  // const user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.346 Safari/537.36";
-  // chromeOptions.addArguments(`user-agent=${user_agent}`);
+  const user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.346 Safari/537.36";
+  chromeOptions.addArguments(`user-agent=${user_agent}`);
 
-  chromeOptions.addArguments("--start-maximized")
+  chromeOptions.addArguments("--headless")
   chromeOptions.excludeSwitches("enable-automation")
 
   const driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
