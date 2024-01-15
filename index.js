@@ -1,7 +1,6 @@
 import { Builder, By, Key, until } from 'selenium-webdriver';
 import chrome from 'selenium-webdriver/chrome.js';
 import fetch from 'node-fetch';
-import { writeFileSync } from 'fs';
 import config from './config.json' assert {type : "json"};
 
 
@@ -67,11 +66,6 @@ async function runScript() {
       const maxDict = sizes.reduce((max, current) => (current.size > max.size ? current : max), { size: -Infinity });
       const correctImage = images[maxDict.idx];
       const url = await correctImage.getAttribute("src");
-
-      const imageFilename = `tweet_image_${i + 1}.jpg`;
-      const response = await fetch(url);
-      const buffer = await response.buffer();
-      writeFileSync(imageFilename, buffer);
 
       console.log(`Downloaded image for Tweet ${i + 1}: ${imageFilename}`);
       console.log(`text = ${tweetText}`);
