@@ -10,10 +10,13 @@ async function runScript() {
 
 
   const chromeOptions = new chrome.Options();
-  chromeOptions.addArguments("--headless");
-  chromeOptions.addArguments("--disable-gpu");
-  const user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.346 Safari/537.36";
-  chromeOptions.addArguments(`user-agent=${user_agent}`);
+  // chromeOptions.addArguments("--headless");
+  // chromeOptions.addArguments("--disable-gpu");
+  // const user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.346 Safari/537.36";
+  // chromeOptions.addArguments(`user-agent=${user_agent}`);
+
+  options.add_argument("--start-maximized")
+  options.add_experimental_option("excludeSwitches", ["enable-automation"])
 
   const driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
 
@@ -24,12 +27,12 @@ async function runScript() {
   console.log("Current URL after login page:", await driver.getCurrentUrl());
   const pageSource = await driver.getPageSource();
   console.log("HTML source of the current page:", pageSource);
-  const usernameField = await driver.wait(until.elementLocated(By.xpath('//input[@name="text"]')), 30000);
+  const usernameField = await driver.wait(until.elementLocated(By.css('input[autocomplete="username"]')), 20000);
   await usernameField.sendKeys(username, Key.RETURN);
 
   await driver.sleep(5000);
 
-  const passwordField = await driver.wait(until.elementLocated(By.xpath('//input[@name="password"]')), 30000);
+  const passwordField = await driver.wait(until.elementLocated(By.xpath('//input[@name="password"]')), 20000);
   await passwordField.sendKeys(password, Key.RETURN);
 
   await driver.sleep(5000);
