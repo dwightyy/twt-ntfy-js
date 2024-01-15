@@ -5,7 +5,7 @@ import config from './config.json' assert {type : "json"};
 
 
 async function runScript() {
-  const { username, password } = config.twitter;
+  const { username, password, email } = config.twitter;
   const {address} = config.nyft
 
 
@@ -15,8 +15,8 @@ async function runScript() {
   // const user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.346 Safari/537.36";
   // chromeOptions.addArguments(`user-agent=${user_agent}`);
 
-  options.add_argument("--start-maximized")
-  options.add_experimental_option("excludeSwitches", ["enable-automation"])
+  chromeOptions.addArguments("--start-maximized")
+  chromeOptions.excludeSwitches("enable-automation")
 
   const driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
 
@@ -38,6 +38,13 @@ async function runScript() {
   await driver.sleep(5000);
 
   console.log("Current URL:", await driver.getCurrentUrl());
+
+  const pageSource2 = await driver.getPageSource();
+  const isHelpUsPresent = pageSource2.includes("Help us keep your account safe.");
+  if(isHelpUsPresent){
+    const emailField = await driver.wait(until.elementLocated(By.xpath('//input[@inputmode="email"]')),20000);
+    await emailField.sendKeys(email, Key.RETURN )
+  }
 
   await driver.get("https://twitter.com/explore");
   await driver.sleep(2000);
@@ -72,7 +79,6 @@ async function runScript() {
       const correctImage = images[maxDict.idx];
       const url = await correctImage.getAttribute("src");
 
-      console.log(`Downloaded image for Tweet ${i + 1}: ${imageFilename}`);
       console.log(`text = ${tweetText}`);
 
       await fetch(`https://ntfy.sh/${address}`, {
