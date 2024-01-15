@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: twt-ntfy
-    runtime: node
-    plan: free
-    buildCommand: "./render-build.sh"
-    startCommand: "node index.js"
-    
-
