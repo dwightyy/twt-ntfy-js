@@ -13,7 +13,7 @@ if [ ! -d "$STORAGE_DIR/chrome" ]; then
   dpkg -x ./google-chrome-stable_current_amd64.deb "$STORAGE_DIR/chrome"
   rm ./google-chrome-stable_current_amd64.deb
   pwd
-  cd "$HOME"
+  cd "$HOME/project/src"
   pwd
 else
   echo "...Using Chrome from cache"
